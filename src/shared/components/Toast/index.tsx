@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import "./style.css";
 
 const ToastType = {
   INFO: "info",
@@ -16,10 +17,10 @@ type ToastProps = {
   onClose: () => void;
 };
 
-export function Toast({ message, type, duration, onClose }: ToastProps) {
+export function Toast({ message, type, duration = 3000, onClose }: ToastProps) {
   useEffect(() => {
     const timer = setTimeout(onClose, duration);
-    return clearTimeout(timer);
+    return () => clearTimeout(timer); // ← arrow function aqui
   }, [duration, onClose]);
 
   return (
