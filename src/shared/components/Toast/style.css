@@ -5,10 +5,10 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 18px 24px;
   border-radius: 6px;
-  min-width: 260px;
-  max-width: 360px;
+  min-width: 360px;
+  max-width: 480px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   animation: toast-in 0.3s ease forwards;
   z-index: 9999;
@@ -34,7 +34,7 @@
 
 .toast__message {
   flex: 1;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.4;
 }
 
