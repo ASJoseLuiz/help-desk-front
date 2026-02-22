@@ -8,6 +8,7 @@ import {
   AuthLayout,
   FormField,
 } from "../../shared/components";
+import { useToast } from "../../shared/hooks/useToast";
 
 type RegisterFormData = {
   name: string;
@@ -22,18 +23,28 @@ function Register() {
     formState: { errors },
   } = useForm<RegisterFormData>();
   const [isLoading, setIsloading] = useState<boolean>(false);
+  const { showToast } = useToast();
 
-  const onSubmit = useCallback(async (data: RegisterFormData) => {
-    setIsloading(true);
-    await api
-      .post("/users", data)
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsloading(false);
-      });
-  }, []);
+  const onSubmit = useCallback(
+    async (data: RegisterFormData) => {
+      setIsloading(true);
+      await api
+        .post("/users", data)
+        .then(() => {
+          showToast("Conta criada com sucesso", "success");
+        })
+        .catch((error) => {
+          showToast(
+            error.response?.data?.message ?? "Erro ao criar conta",
+            "error",
+          );
+        })
+        .finally(() => {
+          setIsloading(false);
+        });
+    },
+    [showToast],
+  );
 
   return (
     <AuthLayout
