@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import "./style.css";
+import { useCallback } from "react";
+import { api } from "../../shared/lib/api";
 
 type RegisterFormData = {
-  login: string;
+  name: string;
   email: string;
   password: string;
 };
@@ -15,9 +17,11 @@ function Register() {
     formState: { errors },
   } = useForm<RegisterFormData>();
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log("Dados do cadastro:", data);
-  };
+  const onSubmit = useCallback(async (data: RegisterFormData) => {
+    await api.post("/users", data).catch((error) => {
+      console.log(error);
+    });
+  }, []);
 
   return (
     <div className="register-layout">
@@ -36,17 +40,17 @@ function Register() {
             <div className="form-group">
               <input
                 type="text"
-                placeholder="Digite seu login"
-                {...register("login", {
-                  required: "Login é obrigatório",
+                placeholder="Digite seu nome"
+                {...register("name", {
+                  required: "nome é obrigatório",
                   maxLength: {
                     value: 30,
-                    message: "O login pode ter no máximo 30 caracteres"
-                  }
+                    message: "O nome pode ter no máximo 30 caracteres",
+                  },
                 })}
               />
-              {errors.login && (
-                <span className="error">{errors.login.message}</span>
+              {errors.name && (
+                <span className="error">{errors.name.message}</span>
               )}
             </div>
 

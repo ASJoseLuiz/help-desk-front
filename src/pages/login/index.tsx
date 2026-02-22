@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import "./style.css";
+import { useCallback } from "react";
+import { useAuth } from "../../shared/hooks/useAuth";
 
 type LoginFormData = {
   email: string;
@@ -13,10 +15,14 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>();
+  const { login } = useAuth();
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log("Dados do login:", data);
-  };
+  const onSubmit = useCallback(
+    async (data: LoginFormData) => {
+      await login(data.email, data.password);
+    },
+    [login],
+  );
 
   return (
     <div className="login-layout">
@@ -36,8 +42,8 @@ export default function Login() {
                 type="email"
                 placeholder="Digite seu email"
                 {...register("email", {
-                    required: "Email é obrigatório" ,
-                    pattern: {
+                  required: "Email é obrigatório",
+                  pattern: {
                     value: /^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+$/,
                     message: "Email inválido",
                   },
