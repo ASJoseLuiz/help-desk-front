@@ -8,6 +8,7 @@ import {
   AuthLayout,
   FormField,
 } from "../../shared/components";
+import { useToast } from "../../shared/hooks/useToast";
 
 type LoginFormData = {
   email: string;
@@ -22,15 +23,23 @@ export default function Login() {
   } = useForm<LoginFormData>();
   const { login } = useAuth();
   const [isLoading, setIsloading] = useState<boolean>(false);
+  const { showToast } = useToast();
 
   const onSubmit = useCallback(
     async (data: LoginFormData) => {
       setIsloading(true);
-      await login(data.email, data.password).finally(() => {
-        setIsloading(false);
-      });
+      await login(data.email, data.password)
+        .catch((error) => {
+          showToast(
+            error.response?.data?.message ?? "Email ou senha inválidos",
+            "error",
+          );
+        })
+        .finally(() => {
+          setIsloading(false);
+        });
     },
-    [login],
+    [login, showToast],
   );
 
   return (
