@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { api } from "../../shared/lib/api";
 import {
   AuthButton,
@@ -21,11 +21,18 @@ function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormData>();
+  const [isLoading, setIsloading] = useState<boolean>(false);
 
   const onSubmit = useCallback(async (data: RegisterFormData) => {
-    await api.post("/users", data).catch((error) => {
-      console.log(error);
-    });
+    setIsloading(true);
+    await api
+      .post("/users", data)
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsloading(false);
+      });
   }, []);
 
   return (
@@ -74,7 +81,9 @@ function Register() {
             })}
           />
 
-          <AuthButton type="submit">Cadastrar</AuthButton>
+          <AuthButton type="submit" isLoading={isLoading}>
+            Cadastrar
+          </AuthButton>
         </form>
 
         <p style={{ marginTop: 15, textAlign: "center" }}>

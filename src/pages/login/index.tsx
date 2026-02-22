@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useAuth } from "../../shared/hooks/useAuth";
 import {
   AuthButton,
@@ -21,10 +21,14 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFormData>();
   const { login } = useAuth();
+  const [isLoading, setIsloading] = useState<boolean>(false);
 
   const onSubmit = useCallback(
     async (data: LoginFormData) => {
-      await login(data.email, data.password);
+      setIsloading(true);
+      await login(data.email, data.password).finally(() => {
+        setIsloading(false);
+      });
     },
     [login],
   );
@@ -56,7 +60,9 @@ export default function Login() {
             {...register("password", { required: "Senha é obrigatória" })}
           />
 
-          <AuthButton type="submit">Entrar</AuthButton>
+          <AuthButton type="submit" isLoading={isLoading}>
+            Entrar
+          </AuthButton>
         </form>
 
         <p style={{ marginTop: 15, textAlign: "center" }}>
