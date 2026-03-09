@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { useAuth } from "../../shared/hooks/useAuth";
 import {
@@ -24,11 +24,13 @@ export default function Login() {
   const { login } = useAuth();
   const [isLoading, setIsloading] = useState<boolean>(false);
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   const onSubmit = useCallback(
     async (data: LoginFormData) => {
       setIsloading(true);
       await login(data.email, data.password)
+        .then(() => navigate('/home'))
         .catch((error) => {
           showToast(
             error.response?.data?.message ?? "Email ou senha inválidos",

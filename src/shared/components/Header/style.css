@@ -1,0 +1,63 @@
+.header {
+  width: 115%;
+  height: 70px;
+  background: #ffffff;
+  margin-left: -14%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 40px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  background: #2563eb;
+  color: white;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.header-nav {
+  display: flex;
+  gap: 30px;
+}
+
+.header-nav a {
+  text-decoration: none;
+  color: #333;
+  font-size: 15px;
+}
+
+.new-ticket {
+  background: #2563eb;
+  color: white;
+
+  border: none;
+  padding: 10px 18px;
+
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.new-ticket:hover {
+  opacity: 0.9;
+}
