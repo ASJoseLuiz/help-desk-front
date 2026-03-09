@@ -6,11 +6,14 @@ import { DashboardHeader } from "../../shared/components/DashboardHeader/index";
 import { api } from "../../shared/lib/api";
 import { Header } from "../../shared/components/Header";
 import { RecentTickets } from "../../shared/components/RecentTickets";
+import type Ticket from "../../shared/types/ticket";
 
 interface DashboardData {
   chamadosAbertos: number;
+  chamadosAndamento: number;
   chamadosResolvidos: number;
   usuarios: number;
+  tickets: Ticket[];
 }
 
 export default function Home() {
@@ -19,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     async function loadDashboard() {
       try {
-        const response = await api.get("/dashboard");
+        const response = await api.get("/ticket/dashboard");
 
         setData(response.data);
 
@@ -44,7 +47,7 @@ export default function Home() {
           chamadosResolvidos={data?.chamadosResolvidos}
           usuarios={data?.usuarios}
         />
-        <RecentTickets />
+        <RecentTickets chamados={data?.tickets} />
 
       </div>
 

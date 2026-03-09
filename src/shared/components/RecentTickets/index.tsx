@@ -1,13 +1,18 @@
+import { timeAgo } from "../../lib/timeAgo";
+import type Ticket from "../../types/ticket";
 import "./style.css";
 
-interface Ticket {
-  id: number;
-  titulo: string;
-  solicitante: string;
-  prioridade: string;
-  status: string;
-  tempo: string;
-}
+const priorityMap: Record<string, string> = {
+  LOW: "Baixa",
+  MEDIUM: "Média",
+  HIGH: "Alta",
+};
+
+const statusMap: Record<string, string> = {
+  OPEN: "Aberto",
+  IN_PROGRESS: "Em andamento",
+  DONE: "Resolvido",
+};
 
 interface Props {
   chamados?: Ticket[];
@@ -35,27 +40,27 @@ export function RecentTickets({ chamados }: Props) {
         <tbody>
 
           {chamados?.map((ticket) => (
-            <tr key={ticket.id}>
+            <tr key={ticket.code}>
 
-              <td>#{ticket.id}</td>
+              <td>#{ticket.code}</td>
 
-              <td>{ticket.titulo}</td>
+              <td>{ticket.title}</td>
 
-              <td>{ticket.solicitante}</td>
+              <td>{ticket.requestedUser.name}</td>
 
               <td>
-                <span className={`priority ${ticket.prioridade}`}>
-                  {ticket.prioridade}
+                <span className={`priority ${ticket.priority}`}>
+                  {priorityMap[ticket.priority]}
                 </span>
               </td>
 
               <td>
                 <span className={`status ${ticket.status}`}>
-                  {ticket.status}
+                  {statusMap[ticket.status]}
                 </span>
               </td>
 
-              <td>{ticket.tempo}</td>
+              <td>{timeAgo(ticket.createdAt)}</td>
 
             </tr>
           ))}
