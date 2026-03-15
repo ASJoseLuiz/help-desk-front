@@ -97,6 +97,7 @@ export function TicketDetailModal({ isOpen, onClose, ticket, onUpdate }: Props) 
               >
                 <option value="OPEN">Aberto</option>
                 <option value="IN_PROGRESS">Em Andamento</option>
+                <option value={"PENDING"}>Pendentes</option>
                 <option value="DONE">Resolvido</option>
               </select>
             </div>
