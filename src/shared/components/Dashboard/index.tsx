@@ -26,7 +26,7 @@ export function Dashboard({
 
         <div className="dashboard-card card-accent-blue">
           <div className="dashboard-card-top">
-            <span>Total de Chamados</span>
+            <span>Chamados em aberto</span>
             <div className="dashboard-card-icon total-icon">
               <Mail className="icon" />
             </div>
