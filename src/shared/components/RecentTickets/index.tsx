@@ -22,7 +22,12 @@ export function RecentTickets({ chamados }: Props) {
   return (
     <div className="recent-tickets">
 
-      <h2>Chamados Recentes</h2>
+      <div className="recent-tickets-header">
+        <h2>Chamados Recentes</h2>
+        <span className="recent-tickets-badge">
+          {chamados?.length ?? 0} chamados
+        </span>
+      </div>
 
       <table className="tickets-table">
 
@@ -38,33 +43,32 @@ export function RecentTickets({ chamados }: Props) {
         </thead>
 
         <tbody>
-
-          {chamados?.map((ticket) => (
-            <tr key={ticket.code}>
-
-              <td>#{ticket.code}</td>
-
-              <td>{ticket.title}</td>
-
-              <td>{ticket.requestedUser.name}</td>
-
-              <td>
-                <span className={`priority ${ticket.priority}`}>
-                  {priorityMap[ticket.priority]}
-                </span>
+          {chamados && chamados.length > 0 ? (
+            chamados.map((ticket) => (
+              <tr key={ticket.code}>
+                <td>#{ticket.code}</td>
+                <td>{ticket.title}</td>
+                <td>{ticket.requestedUser.name}</td>
+                <td>
+                  <span className={`priority ${priorityMap[ticket.priority]}`}>
+                    {priorityMap[ticket.priority]}
+                  </span>
+                </td>
+                <td>
+                  <span className={`status ${ticket.status}`}>
+                    {statusMap[ticket.status]}
+                  </span>
+                </td>
+                <td>{timeAgo(ticket.createdAt)}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={6} style={{ textAlign: "center", color: "#cbd5e1", padding: "32px" }}>
+                Nenhum chamado encontrado
               </td>
-
-              <td>
-                <span className={`status ${ticket.status}`}>
-                  {statusMap[ticket.status]}
-                </span>
-              </td>
-
-              <td>{timeAgo(ticket.createdAt)}</td>
-
             </tr>
-          ))}
-
+          )}
         </tbody>
 
       </table>

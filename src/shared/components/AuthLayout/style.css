@@ -1,6 +1,7 @@
 .auth-layout {
   display: flex;
   height: 100vh;
+  font-family: 'Inter', sans-serif;
 }
 
 .auth-left {
@@ -20,11 +21,13 @@
 .auth-overlay h1 {
   font-size: 40px;
   margin-bottom: 15px;
+  font-family: 'Inter', sans-serif;
 }
 
 .auth-overlay p {
   font-size: 18px;
   opacity: 0.9;
+  font-family: 'Inter', sans-serif;
 }
 
 .auth-right {
