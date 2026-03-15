@@ -78,8 +78,8 @@
 }
 
 .priority.Baixa {
-  background: #dddddd;
-  color: #22c55e;
+  background: #d1fae5;
+  color: #059669;
 }
 
 .status {
@@ -89,17 +89,22 @@
   font-family: 'Inter', sans-serif;
 }
 
-.status.Aberto {
+.status.OPEN {
   background: #dbeafe;
   color: #2563eb;
 }
 
-.status.em-andamento {
+.status.IN_PROGRESS {
   background: #fef3c7;
   color: #d97706;
 }
 
-.status.Resolvido {
+.status.PENDING {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.status.DONE {
   background: #d1fae5;
   color: #059669;
 }
