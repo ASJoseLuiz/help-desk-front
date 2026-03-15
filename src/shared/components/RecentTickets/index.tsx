@@ -11,6 +11,7 @@ const priorityMap: Record<string, string> = {
 const statusMap: Record<string, string> = {
   OPEN: "Aberto",
   IN_PROGRESS: "Em andamento",
+  PENDING: "Pendentes",
   DONE: "Resolvido",
 };
 
