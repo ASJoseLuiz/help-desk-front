@@ -68,3 +68,98 @@
 .new-ticket:hover {
   opacity: 0.9;
 }
+
+.logout-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.logout-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  border: 0.5px solid #e2e8f0;
+}
+
+.logout-modal h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.logout-modal p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 28px;
+}
+
+.logout-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-cancel-logout {
+  background: none;
+  border: 1px solid #e2e8f0;
+  padding: 9px 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-cancel-logout:hover {
+  background: #f1f5f9;
+}
+
+.btn-confirm-logout {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 9px 24px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-confirm-logout:hover {
+  opacity: 0.9;
+}
+
+.btn-logout {
+  background: none;
+  border: 1px solid #e2e8f0;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  margin-right: 8px;
+}
+
+.btn-logout:hover {
+  background: #f1f5f9;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

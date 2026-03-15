@@ -1,6 +1,9 @@
 export default interface Ticket {
+    id: string;
     code: number;
     title: string;
+    description: string;
+    requestedUserId: string;
     requestedUser: {
       name: string
     };

@@ -44,6 +44,7 @@ export default function Home() {
 
         <Dashboard
           chamadosAbertos={data?.chamadosAbertos}
+          chamadosAndamento={data?.chamadosAndamento}
           chamadosResolvidos={data?.chamadosResolvidos}
           usuarios={data?.usuarios}
         />
