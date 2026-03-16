@@ -19,18 +19,18 @@ interface DashboardData {
 export default function Home() {
   const [data, setData] = useState<DashboardData | null>(null);
 
-  useEffect(() => {
-    async function loadDashboard() {
-      try {
-        const response = await api.get("/ticket/dashboard");
+  async function loadDashboard() {
+    try {
+      const response = await api.get("/ticket/dashboard");
 
-        setData(response.data);
+      setData(response.data);
 
-      } catch (error) {
-        console.log("Erro ao buscar dados do dashboard");
-      }
+    } catch (error) {
+      console.log("Erro ao buscar dados do dashboard");
     }
+  }
 
+  useEffect(() => {
     loadDashboard();
   }, []);
 
@@ -38,12 +38,13 @@ export default function Home() {
     <div>
 
       <div style={{ marginLeft: "220px" }}>
-        <Header />
+        <Header onTicketCreated={loadDashboard}/>
         <Navbar />
         <DashboardHeader />
 
         <Dashboard
           chamadosAbertos={data?.chamadosAbertos}
+          chamadosAndamento={data?.chamadosAndamento}
           chamadosResolvidos={data?.chamadosResolvidos}
           usuarios={data?.usuarios}
         />

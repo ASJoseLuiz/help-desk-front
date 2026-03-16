@@ -9,11 +9,6 @@ export function DashboardHeader() {
         <p>Gerencie seus chamados de suporte</p>
       </div>
 
-      <input
-        className="search-input"
-        placeholder="Buscar chamados..."
-      />
-
     </div>
   );
 }
