@@ -30,7 +30,7 @@ export function Header({ onTicketCreated }: HeaderProps) {
         <nav className="header-nav">
           <NavLink to="/home">Dashboard</NavLink>
           <NavLink to="/calls">Chamados</NavLink>
-          <NavLink to="/perfil">Perfil</NavLink>
+          <NavLink to="/profile">Perfil</NavLink>
         </nav>
 
         <div className="header-right">
