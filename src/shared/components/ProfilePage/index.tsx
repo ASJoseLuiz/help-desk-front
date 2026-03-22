@@ -12,6 +12,12 @@ interface DashboardData {
   chamadosPendentes: number;
 }
 
+const roleLabel: Record<string, string> = {
+  ADMIN: "Administrador",
+  SUPPORT: "Suporte",
+  CLIENT: "Cliente",
+};
+
 export function ProfilePage() {
   const { user } = useContext(AuthContext)!;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +32,8 @@ export function ProfilePage() {
   const chartInstance = useRef<Chart | null>(null);
 
   const initials = user?.email ? user.email[0].toUpperCase() : "?";
+
+  const isAdmin = userDetails?.role === "ADMIN";
 
   useEffect(() => {
     api.get("/ticket/dashboard").then((res) => {
@@ -93,16 +101,22 @@ export function ProfilePage() {
           <div className="profile-card">
             <div className="profile-avatar">{initials}</div>
             <div className="profile-name">{user?.email}</div>
-            <span className="profile-badge">Administrador</span>
 
-            <div className="profile-divider" />
+            <span className="profile-badge">
+              {userDetails?.role ? roleLabel[userDetails.role] ?? userDetails.role : "—"}
+            </span>
 
-            <button
-              className="profile-btn-manage"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Gerenciar Usuários
-            </button>
+            {isAdmin && (
+              <>
+                <div className="profile-divider" />
+                <button
+                  className="profile-btn-manage"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Gerenciar Usuários
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -117,7 +131,7 @@ export function ProfilePage() {
               <div className="profile-field">
                 <label>Cargo</label>
                 <div className="profile-field-value">
-                  {userDetails?.role ?? "—"}
+                  {userDetails?.role ? roleLabel[userDetails.role] ?? userDetails.role : "—"}
                 </div>
               </div>
               <div className="profile-field">
