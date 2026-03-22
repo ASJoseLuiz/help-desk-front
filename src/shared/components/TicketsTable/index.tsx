@@ -31,6 +31,9 @@ export function TicketsTable({ tickets, onUpdate }: Props) {
   const [filterPriority, setFilterPriority] = useState("");
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
 
+  const [ticketToDelete, setTicketToDelete] = useState<Ticket | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const filtered = tickets.filter((t) => {
     const matchSearch =
       t.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -42,10 +45,10 @@ export function TicketsTable({ tickets, onUpdate }: Props) {
   });
 
   async function handleClose(id: string) {
-    const ticket = tickets.find(t => t.id === id)!;
+    const ticket = tickets.find((t) => t.id === id)!;
 
     if (ticket.status === "DONE") {
-      toastContext?.showToast("Este chamado já foi encerrado.", "warning");
+      setTicketToDelete(ticket);
       return;
     }
 
@@ -59,7 +62,22 @@ export function TicketsTable({ tickets, onUpdate }: Props) {
       });
       onUpdate();
     } catch {
-      console.log("Erro ao fechar chamado");
+      toastContext?.showToast("Erro ao encerrar chamado.", "error");
+    }
+  }
+
+  async function handleConfirmDelete() {
+    if (!ticketToDelete) return;
+    setIsDeleting(true);
+    try {
+      await api.delete(`/ticket/${ticketToDelete.id}`);
+      toastContext?.showToast("Chamado deletado com sucesso.", "success");
+      setTicketToDelete(null);
+      onUpdate();
+    } catch {
+      toastContext?.showToast("Erro ao deletar chamado. Tente novamente.", "error");
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -165,6 +183,47 @@ export function TicketsTable({ tickets, onUpdate }: Props) {
           </tbody>
         </table>
       </div>
+
+      {ticketToDelete && (
+        <div className="um-overlay" onClick={() => setTicketToDelete(null)}>
+          <div className="um-modal" style={{ maxWidth: 480, width: "100%" }} onClick={(e) => e.stopPropagation()}>
+            <div className="um-header">
+              <h2>Deletar Chamado</h2>
+              <button className="um-close" onClick={() => setTicketToDelete(null)}>✕</button>
+            </div>
+            <div className="um-body" style={{ padding: "24px 28px" }}>
+              <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: 1.6 }}>
+                O chamado{" "}
+                <strong style={{ color: "#0f172a" }}>
+                  #{ticketToDelete.code} — {ticketToDelete.title}
+                </strong>{" "}
+                já está <strong style={{ color: "#22c55e" }}>Resolvido</strong>.
+                Deseja deletá-lo permanentemente?
+              </p>
+              <p style={{ color: "#94a3b8", fontSize: "0.85rem", marginTop: 8 }}>
+                Esta ação não pode ser desfeita.
+              </p>
+            </div>
+            <div className="um-footer" style={{ justifyContent: "flex-end", gap: "8px" }}>
+              <button
+                className="um-btn-close"
+                disabled={isDeleting}
+                onClick={() => setTicketToDelete(null)}
+              >
+                Cancelar
+              </button>
+              <button
+                className="profile-btn-manage"
+                style={{ background: isDeleting ? "#fca5a5" : "#ef4444", margin: 0, cursor: isDeleting ? "not-allowed" : "pointer" }}
+                disabled={isDeleting}
+                onClick={handleConfirmDelete}
+              >
+                {isDeleting ? "Deletando..." : "Deletar"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <TicketDetailModal
         isOpen={selectedTicket !== null}
