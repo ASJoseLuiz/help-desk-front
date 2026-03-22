@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { api } from "../../lib/api"; // ajuste o caminho conforme seu projeto
+import { api } from "../../lib/api";
 import "./style.css";
 
 const roleMap: Record<string, string> = {
@@ -33,7 +33,6 @@ export function UserManagementModal({ isOpen, onClose }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
-  // Busca todos os usuários ao abrir o modal
   const fetchUsers = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -53,17 +52,14 @@ export function UserManagementModal({ isOpen, onClose }: Props) {
     }
   }, [isOpen, fetchUsers]);
 
-  // Atualiza role de um usuário específico
   const handleRoleChange = useCallback(async (id: string, newRole: string) => {
     setUpdatingId(id);
-    // Atualização otimista: aplica na UI imediatamente
     setUsers((prev) =>
       prev.map((u) => (u.id === id ? { ...u, role: newRole } : u))
     );
     try {
       await api.put(`/users/${id}`, { role: newRole });
     } catch (err) {
-      // Rollback em caso de erro: rebusca o estado real do servidor
       setError("Erro ao atualizar função do usuário.");
       fetchUsers();
     } finally {
