@@ -12,6 +12,7 @@ interface DashboardData {
   chamadosAbertos: number;
   chamadosAndamento: number;
   chamadosResolvidos: number;
+  chamadosPendentes: number;
   usuarios: number;
   tickets: Ticket[];
 }
@@ -22,9 +23,13 @@ export default function Home() {
   async function loadDashboard() {
     try {
       const response = await api.get("/ticket/dashboard");
+      const responseData = response.data;
 
-      setData(response.data);
+      const chamadosPendentes = responseData.tickets.filter(
+        (t: Ticket) => t.status === "PENDING"
+      ).length;
 
+      setData({ ...responseData, chamadosPendentes });
     } catch (error) {
       console.log("Erro ao buscar dados do dashboard");
     }
@@ -36,9 +41,8 @@ export default function Home() {
 
   return (
     <div>
-
       <div style={{ marginLeft: "220px" }}>
-        <Header onTicketCreated={loadDashboard}/>
+        <Header onTicketCreated={loadDashboard} />
         <Navbar />
         <DashboardHeader />
 
@@ -46,12 +50,11 @@ export default function Home() {
           chamadosAbertos={data?.chamadosAbertos}
           chamadosAndamento={data?.chamadosAndamento}
           chamadosResolvidos={data?.chamadosResolvidos}
+          chamadosPendentes={data?.chamadosPendentes}
           usuarios={data?.usuarios}
         />
         <RecentTickets chamados={data?.tickets} />
-
       </div>
-
     </div>
   );
 }
